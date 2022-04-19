@@ -1,4 +1,4 @@
-deepface
+deepface<==0.0.74
 matplotlib==3.4.2
 mediapipe==0.8.9.1
 numpy==1.21.6
