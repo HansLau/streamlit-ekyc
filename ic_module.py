@@ -9,7 +9,7 @@ from recognize.crnn_recognizer2 import PytorchOcr
 
 package_directory = os.path.dirname(os.path.abspath(__file__))
 print(package_directory)
-model_path = os.path.join(package_directory, r'.\checkpoints\CRNN24_99_933.pth') #r'checkpoints\CRNN24_99_933.pth
+model_path = os.path.join(package_directory, r'checkpoints/CRNN24_99_933.pth') #r'checkpoints\CRNN24_99_933.pth
 # model_path=r'C:\Users\hans-\OneDrive - Asia Pacific University\Intern\bsimple_ocr\checkpoints\CRNN24_99_933.pth'
 recognizer = PytorchOcr(model_path)
 from math import *
