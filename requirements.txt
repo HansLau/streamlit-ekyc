@@ -1,6 +1,7 @@
 opencv_python_headless==4.5.5.64
 mediapipe==0.8.9.1
 streamlit==1.8.1
+Pillow==6.2.1
 tensorflow==2.3.0
 deepface
 --extra-index-url https://download.pytorch.org/whl/torch_stable.html
