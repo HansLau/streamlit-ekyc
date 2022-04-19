@@ -385,6 +385,7 @@ elif app_mode =='Perform e-KYC Verification':
         st.sidebar.text('Input Video')
         st.sidebar.video(tfflie.name)
 
+        frame=np.zeros(shape=[512, 512, 3], dtype=np.uint8)
         detected, frame = detectMouth(name, detection_confidence, tracking_confidence, ratio)
         st.session_state['mouth_detected'] = detected
         st.session_state['mouth_open_frame'] = frame ##? If none detected?
