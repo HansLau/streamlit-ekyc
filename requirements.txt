@@ -6,6 +6,7 @@ opencv_python_headless==4.5.5.64
 Pillow==9.1.0
 streamlit==1.8.1
 tensorflow==2.3.0
-torch==1.11.0
-torchvision==0.4.0+cpu
 
+-i https://download.pytorch.org/whl/torch_stable.html
+torchvision==0.4.0
+torch==1.2.0
