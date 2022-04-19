@@ -364,7 +364,8 @@ elif app_mode =='Perform e-KYC Verification':
     tracking_confidence = 0.5 #pointless
     
     stframe = st.empty()
-
+    
+    frametest=np.zeros(shape=[512, 512, 3], dtype=np.uint8)
     tfflie = tempfile.NamedTemporaryFile(delete=False)
     if mouthStart_button:
         if not video_file_buffer:
@@ -385,10 +386,9 @@ elif app_mode =='Perform e-KYC Verification':
         st.sidebar.text('Input Video')
         st.sidebar.video(tfflie.name)
 
-        frame=np.zeros(shape=[512, 512, 3], dtype=np.uint8)
-        detected, frame = detectMouth(name, detection_confidence, tracking_confidence, ratio)
+        detected, frametest = detectMouth(name, detection_confidence, tracking_confidence, ratio)
         st.session_state['mouth_detected'] = detected
-        st.session_state['mouth_open_frame'] = frame ##? If none detected?
+        st.session_state['mouth_open_frame'] = frametest ##? If none detected?
         stframe.empty()
 
     if 'mouth_detected' not in st.session_state:
