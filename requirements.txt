@@ -6,6 +6,6 @@ Pillow==9.1.0
 streamlit==1.8.1
 tensorflow==2.3.0
 git+https://github.com/serengil/deepface@master
--i https://download.pytorch.org/whl/torch_stable.html
+--extra-index-url https://download.pytorch.org/whl/torch_stable.html
 torchvision==0.4.0
 torch==1.2.0
