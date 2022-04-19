@@ -1,0 +1,10 @@
+deepface==0.0.74
+matplotlib==3.4.2
+mediapipe==0.8.9.1
+numpy==1.21.6
+opencv_python_headless==4.5.5.64
+Pillow==9.1.0
+streamlit==1.8.1
+tensorflow==2.3.0
+torch==1.11.0
+torchvision==0.4.0+cpu
