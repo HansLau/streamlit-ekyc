@@ -118,6 +118,7 @@ def face_verification(icImg, camImg):
 def detectMouth(name, detection_confidence, tracking_confidence, ratioThreshold = 0.26, max_faces=1):
     fps = 0
     i = 0
+    frame=np.zeros(shape=[512, 512, 3], dtype=np.uint8)
     with mp_face_mesh.FaceMesh(
     min_detection_confidence=detection_confidence,
     min_tracking_confidence=tracking_confidence , 
