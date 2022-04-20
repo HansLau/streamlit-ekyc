@@ -83,7 +83,12 @@ def ic_detect(img):
 
     name = ocr["name"]
     idCorrected = newPath.split(".")[0] + "_" +  name + ".jpg"
-    os.rename(newPath, idCorrected)
+
+    try:
+        os.rename(newPath, idCorrected)
+    except WindowsError:
+        os.remove(idCorrected)
+        os.rename(newPath, idCorrected)
 
     return name, ocr
 
