@@ -222,9 +222,9 @@ if app_mode =='e-KYC Introduction and Explanation':
           # My name is  Lau Han Yang  (TP051144). \n
            
            e-KYC pipeline consists of obtaining images of Detection, Extraction and Verification. \n
-           IC Card is first detected and then Text and IC Face is extracted using ORB Feature Matching and a trained CTPN+CRNN Text Detection model.\n
-           User's Selfie Image is then verified with actual User Selfie picture using ArcFace Facial Verification for anti-spoofing. \n
-           Mouth Opening is used for anti-spoofing, which is suitable for low-end devices with low-quality camera\n
+           1) IC Card is first detected and then Text and IC Face is extracted using ORB Feature Matching and a trained CTPN+CRNN Text Detection model.\n
+           2) User's Selfie Image is then verified with actual User Selfie picture using ArcFace Facial Verification for anti-spoofing. \n
+           3) Mouth Opening is used for anti-spoofing, which is suitable for low-end devices with low-quality camera\n
          \n
             ''')
 
