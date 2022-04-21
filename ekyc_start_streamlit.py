@@ -277,6 +277,9 @@ elif app_mode =='Perform e-KYC Verification':
         st.session_state['ic_face_pic'] = DEMO_IC_FACE   
     if 'ic_button' not in st.session_state:
             st.session_state['ic_button'] = False
+    if 'ocr_success' not in st.session_state:
+        st.session_state['ocr_success'] = True
+    st.session_state['ocr_success'] = True
 
     st.sidebar.text('IC Image')
     st.sidebar.image(icimg)
@@ -292,11 +295,14 @@ elif app_mode =='Perform e-KYC Verification':
             st.session_state['ic_button'] = True
             with st.spinner("IC Detection, Perspective Correction, OCR in process"):
                 name, ocr = ic_detect(cv2.cvtColor(icimg, cv2.COLOR_RGB2BGR))
-            
-                st.session_state['ocr'] = ocr 
-                st.session_state['name'] = name 
-                ic_face_pic = "output/" + ocr['savedface'] + ".jpg"
-                st.session_state['ic_face_pic'] = ic_face_pic 
+
+                if name != "" and name != "unknown":
+                    st.session_state['ocr'] = ocr 
+                    st.session_state['name'] = name 
+                    ic_face_pic = "output/" + ocr['savedface'] + ".jpg"
+                    st.session_state['ic_face_pic'] = ic_face_pic
+                else:
+                    st.session_state['ocr_success'] = False
                 
         ###
         #STREAMLIT LIMITATION. OUTPUTTING RESULTS FROM PREVIOUS RUN
@@ -304,20 +310,24 @@ elif app_mode =='Perform e-KYC Verification':
         st.sidebar.image(st.session_state['ic_face_pic'])
         if 'ic_detect_time' not in st.session_state:
             st.session_state['ic_detect_time'] = []
-        for i in st.session_state['ic_detect_time']:
-            st.text(i)
-        st.text(" ")
 
-        if 'ocr' not in st.session_state:
-            st.session_state['ocr'] = ocr 
-        for k, v in st.session_state['ocr'].items():
-            out = str(k) + ": " + str(v)
-            st.text(out)
+        if st.session_state['ocr_success']:
+            for i in st.session_state['ic_detect_time']:
+                st.text(i)
+            st.text(" ")
+
+            if 'ocr' not in st.session_state:
+                st.session_state['ocr'] = ocr 
+            for k, v in st.session_state['ocr'].items():
+                out = str(k) + ": " + str(v)
+                st.text(out)
+        else:
+            st.text("Failed. Card not extracted from image, no IC details found")
 
     ######
     ###Face Verification using ArcFace against IC Face
     with col2:
-        st.checkbox("IC Face Extracted", value=st.session_state['ic_button'], disabled=True)
+        st.checkbox("IC Face Extracted", value=(st.session_state['ocr_success'] and st.session_state['ic_button']), disabled=True)
         st.write("Will use DEMO_IC_FACE if not True")
         verify_button = st.button('Verify IC with Selfie Face')
         if verify_button:

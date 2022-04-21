@@ -160,45 +160,48 @@ def match_outlines(orig_image, skewed_image, ii):
     # p_matched.append(len(matches)/len(kp1))
     # store all the good matches as per Lowe's ratio test.
     good = []
-    for m, n in matches:
-        if m.distance < 0.7 * n.distance: #0.7
-            good.append(m)
-    nn = 0
-    # ratio test as per Lowe's paper
-    for i,(m,n) in enumerate(matches):
-        if m.distance < 0.7*n.distance: #0.7
-            matchesMask[i]=[1,0]
-            nn = nn + 1
-            
-    #print "Good - {}".format(len(good)) 
-    #if ii == 2:		
-        #		
-    #    print ("NN - {}".format(nn) )	
-    
-    draw_params = dict(matchColor = (0,255,0),
+    try:
+        for m, n in matches:
+            if m.distance < 0.7 * n.distance: #0.7
+                good.append(m)
+        nn = 0
+        # ratio test as per Lowe's paper
+        for i,(m,n) in enumerate(matches):
+            if m.distance < 0.7*n.distance: #0.7
+                matchesMask[i]=[1,0]
+                nn = nn + 1
+
+        draw_params = dict(matchColor = (0,255,0),
                    singlePointColor = (255,0,0),
                    matchesMask = matchesMask,
                    flags = 0)
-    img4 = cv2.drawMatchesKnn(orig_image,kp1,skewed_image,kp2,matches,None,**draw_params)		
-    cv2.imwrite("output/matches.jpg", img4)
+        img4 = cv2.drawMatchesKnn(orig_image,kp1,skewed_image,kp2,matches,None,**draw_params)		
+        cv2.imwrite("output/matches.jpg", img4)
 
-    MIN_MATCH_COUNT = 8
-    if len(good) > MIN_MATCH_COUNT:
-        src_pts = np.float32([kp1[m.queryIdx].pt for m in good
-                              ]).reshape(-1, 1, 2)
-        dst_pts = np.float32([kp2[m.trainIdx].pt for m in good
-                              ]).reshape(-1, 1, 2)
+        MIN_MATCH_COUNT = 8
+        if len(good) > MIN_MATCH_COUNT:
+            src_pts = np.float32([kp1[m.queryIdx].pt for m in good
+                                ]).reshape(-1, 1, 2)
+            dst_pts = np.float32([kp2[m.trainIdx].pt for m in good
+                                ]).reshape(-1, 1, 2)
 
-        M, mask = cv2.findHomography(src_pts, dst_pts, cv2.RANSAC, 5.0)
-        #deskew image
-        im_out = cv2.warpPerspective(skewed_image, np.linalg.inv(M),
-            (orig_image.shape[1], orig_image.shape[0]))
-        return im_out, nn
-
-    else:
-        print("MAP: Not  enough  matches are found   -   %d/%d"
-        			  % (len(good), MIN_MATCH_COUNT))
+            M, mask = cv2.findHomography(src_pts, dst_pts, cv2.RANSAC, 5.0)
+            #deskew image
+            im_out = cv2.warpPerspective(skewed_image, np.linalg.inv(M),
+                (orig_image.shape[1], orig_image.shape[0]))
+            return im_out, nn
+        else:
+            print("MAP: Not  enough  matches are found   -   %d/%d"
+                        % (len(good), MIN_MATCH_COUNT))
+            return skewed_image , nn
+    except:
+        print("MAP: Not  enough  matches are found")
+        nn =0
         return skewed_image , nn
+    
+    
+
+   
 
 def ocr2(image):
     text = recognizer.recognize(image)
