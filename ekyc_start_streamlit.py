@@ -278,8 +278,7 @@ elif app_mode =='Perform e-KYC Verification':
     if 'ic_button' not in st.session_state:
             st.session_state['ic_button'] = False
     if 'ocr_success' not in st.session_state:
-        st.session_state['ocr_success'] = True
-    st.session_state['ocr_success'] = True
+        st.session_state['ocr_success'] = False
 
     st.sidebar.text('IC Image')
     st.sidebar.image(icimg)
@@ -297,6 +296,7 @@ elif app_mode =='Perform e-KYC Verification':
                 name, ocr = ic_detect(cv2.cvtColor(icimg, cv2.COLOR_RGB2BGR))
 
                 if name != "" and name != "unknown":
+                    st.session_state['ocr_success'] = True
                     st.session_state['ocr'] = ocr 
                     st.session_state['name'] = name 
                     ic_face_pic = "output/" + ocr['savedface'] + ".jpg"
@@ -322,7 +322,8 @@ elif app_mode =='Perform e-KYC Verification':
                 out = str(k) + ": " + str(v)
                 st.text(out)
         else:
-            st.text("Failed. Card not extracted from image, no IC details found")
+            if st.session_state['ic_button']:
+                st.text("Failed. Card not extracted from image, no IC details found")
 
     ######
     ###Face Verification using ArcFace against IC Face
